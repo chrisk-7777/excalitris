@@ -1,0 +1,28 @@
+.root {
+  bottom: 0;
+  display: flex;
+  gap: 8px;
+  justify-content: space-between;
+  left: 0;
+  padding: 8px 12px calc(env(safe-area-inset-bottom) + 8px);
+  pointer-events: auto;
+  position: absolute;
+  right: 0;
+}
+
+.button {
+  background: rgba(0, 0, 0, 0.6);
+  border-radius: 10px;
+  border: none;
+  color: white;
+  flex: 1;
+  font-size: 14px;
+  min-height: 48px;
+}
+
+@media (min-width: 480px) {
+  .button {
+    min-height: 56px;
+    font-size: 16px;
+  }
+}

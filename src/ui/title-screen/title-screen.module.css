@@ -1,0 +1,13 @@
+.root {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.header {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}

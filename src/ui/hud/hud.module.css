@@ -1,0 +1,47 @@
+.root {
+  display: flex;
+  gap: 12px;
+  justify-content: space-between;
+  left: 8px;
+  pointer-events: none;
+  position: absolute;
+  right: 8px;
+  top: 8px;
+}
+
+.nextGrid {
+  display: inline-grid;
+  gap: 2px;
+}
+
+.cell {
+  background: transparent;
+  height: 12px;
+  width: 12px;
+}
+
+.filled {
+  background: #22aaff;
+}
+
+.root :global(.shapeI) .filled {
+  background: #3f51b5;
+}
+.root :global(.shapeJ) .filled {
+  background: #5e35b1;
+}
+.root :global(.shapeL) .filled {
+  background: #795548;
+}
+.root :global(.shapeO) .filled {
+  background: #d81b60;
+}
+.root :global(.shapeS) .filled {
+  background: #f4511e;
+}
+.root :global(.shapeT) .filled {
+  background: #ffeb3b;
+}
+.root :global(.shapeZ) .filled {
+  background: #0a8f08;
+}

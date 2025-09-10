@@ -1,0 +1,59 @@
+html {
+  box-sizing: border-box;
+}
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+body {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  height: 100vh;
+  background: #176baa;
+}
+
+.container {
+  position: absolute;
+  inset: 0;
+}
+
+.game {
+  align-items: center;
+  display: flex;
+  inset: 0 0 56px 0;
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 60px;
+  position: absolute;
+}
+
+.ui {
+  transition: 500ms opacity;
+  inset: 0;
+  position: absolute;
+  transition: 500ms opacity;
+  pointer-events: none;
+  opacity: 0;
+}
+
+body.game-started .ui {
+  opacity: 1;
+}
+
+.backdrop {
+  background-color: #6b0f1a;
+  opacity: 0;
+  background-image: linear-gradient(315deg, #6b0f1a 0%, #b91372 74%);
+  transition: 500ms opacity;
+  inset: 0;
+  position: absolute;
+}
+
+body.game-started .backdrop {
+  opacity: 1;
+}
