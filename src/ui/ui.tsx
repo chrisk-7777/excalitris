@@ -60,8 +60,10 @@ export function Ui(props: Props) {
 
   return (
     <div className={styles.root}>
-      <Hud engine={engine} />
-      <TouchControls engine={engine} />
+      <div className={styles.wrapper}>
+        <Hud engine={engine} />
+        <TouchControls engine={engine} />
+      </div>
     </div>
   );
 }
