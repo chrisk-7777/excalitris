@@ -11,13 +11,21 @@ import { TouchControls } from './touch-controls/touch-controls';
 
 import styles from './ui.module.css';
 
-const payloadShape = z.union([
+const showPayloadShape = z.union([
   z.object({ type: z.literal('none') }),
   z.object({ type: z.literal('title') }),
   z.object({ type: z.literal('gameover'), score: z.number(), level: z.number(), lines: z.number() }),
 ]);
 
-type UIScreen = z.infer<typeof payloadShape>;
+const hudPayloadShape = z.object({
+  score: z.number(),
+  level: z.number(),
+  lines: z.number(),
+  next: z.string().nullable(),
+});
+
+type UIScreen = z.infer<typeof showPayloadShape>;
+type HudState = z.infer<typeof hudPayloadShape>;
 
 type Props = {
   engine: Engine;
@@ -26,14 +34,20 @@ type Props = {
 export function Ui(props: Props) {
   const { engine } = props;
   const [screen, setScreen] = useState<UIScreen>({ type: 'title' });
+  const [hud, setHud] = useState<HudState>({ score: 0, level: 1, lines: 0, next: null });
 
   useEffect(() => {
     const subShow = engine.on('ui:show', (event: unknown) => {
-      setScreen(payloadShape.parse(event));
+      setScreen(showPayloadShape.parse(event));
+    });
+
+    const subHud = engine.on('ui:hud', (event: unknown) => {
+      setHud(hudPayloadShape.parse(event));
     });
 
     return () => {
       subShow.close();
+      subHud.close();
     };
   }, [engine]);
 
@@ -60,10 +74,8 @@ export function Ui(props: Props) {
 
   return (
     <div className={styles.root}>
-      <div className={styles.wrapper}>
-        <Hud engine={engine} />
-        <TouchControls engine={engine} />
-      </div>
+      <Hud score={hud.score} level={hud.level} lines={hud.lines} next={hud.next} />
+      <TouchControls engine={engine} />
     </div>
   );
 }

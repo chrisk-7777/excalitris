@@ -1,12 +1,28 @@
 .root {
-  display: flex;
-  gap: 12px;
-  justify-content: space-between;
-  left: 8px;
+  display: grid;
+  grid-template-columns: 200px 1fr 200px;
+  height: var(--header-height);
+  left: 0;
   pointer-events: none;
   position: absolute;
-  right: 8px;
-  top: 8px;
+  right: 0;
+  top: 0;
+}
+
+.row {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  justify-content: space-between;
+}
+
+.blocks {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
 }
 
 .nextGrid {

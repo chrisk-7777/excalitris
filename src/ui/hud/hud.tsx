@@ -1,5 +1,3 @@
-import { useEffect, useState } from 'react';
-import * as z from 'zod';
 import type { Engine } from 'excalibur';
 
 import { Panel } from '../panel/panel';
@@ -10,17 +8,11 @@ import { SHAPES } from '../../config';
 import styles from './hud.module.css';
 
 type Props = {
-  engine: Engine;
+  lines: number;
+  level: number;
+  score: number;
+  next: string | null;
 };
-
-const payloadShape = z.object({
-  score: z.number(),
-  level: z.number(),
-  lines: z.number(),
-  next: z.string().nullable(),
-});
-
-type HudState = z.infer<typeof payloadShape>;
 
 function getBlocksForShape(name: string | null) {
   if (!name) return null;
@@ -29,41 +21,43 @@ function getBlocksForShape(name: string | null) {
 }
 
 export function Hud(props: Props) {
-  const { engine } = props;
-  const [hud, setHud] = useState<HudState>({ score: 0, level: 1, lines: 0, next: null });
+  const { next, lines, level, score } = props;
 
-  useEffect(() => {
-    const sub = engine.on('ui:hud', (event: unknown) => {
-      setHud(payloadShape.parse(event));
-    });
-
-    return () => sub.close();
-  }, [engine]);
-
-  const blocks = getBlocksForShape(hud.next);
-  const shapeClass = hud.next ? `shape${hud.next}` : '';
+  const blocks = getBlocksForShape(next);
+  const shapeClass = next ? `shape${next}` : '';
 
   return (
     <div className={styles.root}>
       <Panel>
-        <PanelHeading>Score</PanelHeading>
-        <PanelText>
-          {hud.score} (Lv {hud.level}, {hud.lines} lines)
-        </PanelText>
+        <div className={styles.row}>
+          <PanelHeading>Score</PanelHeading>
+          <PanelText>{score}</PanelText>
+        </div>
+        <div className={styles.row}>
+          <PanelHeading>Level</PanelHeading>
+          <PanelText>{level}</PanelText>
+        </div>
+        <div className={styles.row}>
+          <PanelHeading>Lines</PanelHeading>
+          <PanelText>{lines}</PanelText>
+        </div>
       </Panel>
 
+      <div />
+
       <Panel>
-        <div className={shapeClass}>
-          <PanelHeading>Next</PanelHeading>
-          {blocks && (
-            <div className={styles.nextGrid} style={{ gridTemplateColumns: `repeat(${blocks[0].length}, 12px)` }}>
-              {blocks.flatMap((row, y) =>
-                row.map((cell, x) => (
-                  <div key={`${x}-${y}`} className={`${styles.cell} ${cell ? styles.filled : ''}`} />
-                ))
-              )}
-            </div>
-          )}
+        <div className={styles.blocks}>
+          <div className={shapeClass}>
+            {blocks && (
+              <div className={styles.nextGrid} style={{ gridTemplateColumns: `repeat(${blocks[0].length}, 12px)` }}>
+                {blocks.flatMap((row, y) =>
+                  row.map((cell, x) => (
+                    <div key={`${x}-${y}`} className={`${styles.cell} ${cell ? styles.filled : ''}`} />
+                  ))
+                )}
+              </div>
+            )}
+          </div>
         </div>
       </Panel>
     </div>

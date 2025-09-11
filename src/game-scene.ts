@@ -85,7 +85,7 @@ export class GameScene extends Scene {
       this.endGame();
     }
 
-    this.engine.emit?.('ui:hud', {
+    this.engine.emit('ui:hud', {
       score: this.scoreManager.score,
       level: this.scoreManager.level,
       lines: this.scoreManager.lines,
@@ -142,7 +142,7 @@ export class GameScene extends Scene {
     this.spawnPiece();
     this.updateUI();
 
-    // Hide UI
+    // Hide ui and reveal HUD
     this.engine.emit('ui:show', { type: 'none' });
 
     // Enable controller
@@ -232,7 +232,7 @@ export class GameScene extends Scene {
     this.controller?.setActive(false);
     this.uiController?.setActive(false);
 
-    this.engine.emit?.('ui:show', {
+    this.engine.emit('ui:show', {
       type: 'gameover',
       score: this.scoreManager.score,
       level: this.scoreManager.level,
