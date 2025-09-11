@@ -1,9 +1,10 @@
 import { COLS } from './config';
 import { Board } from './board';
-import { ActionContext } from 'excalibur';
 
 export class ClearEffect {
   private board: Board;
+  private readonly DELAY = 20;
+
   public isActive: boolean = false;
 
   constructor(board: Board) {
@@ -12,32 +13,27 @@ export class ClearEffect {
 
   start(rows: number[], onDone: any): void {
     this.isActive = true;
-    let lastActionChain: ActionContext | undefined;
-    let maxDelay = 0;
 
-    for (const y of rows) {
+    // Reverse rows so we can process from bottom up and simplify delay calculation
+    const reversedRows = [...rows].reverse();
+
+    for (let rowIdx = 0; rowIdx < reversedRows.length; rowIdx++) {
+      const y = reversedRows[rowIdx];
       for (let x = 0; x < COLS; x++) {
-        const block = this.board.getBlock(x, y);
-        const delay = ((rows.length - 1 - rows.indexOf(y)) * COLS + x) * 25;
+        const actionChain = this.board
+          .getBlock(x, y)
+          ?.actions.delay((rowIdx * COLS + x) * this.DELAY)
+          .fade(0, 300);
 
-        const actionChain = block?.actions.delay(delay).fade(0, 300);
-
-        if (delay >= maxDelay) {
-          maxDelay = delay;
-          lastActionChain = actionChain;
+        if (rowIdx === reversedRows.length - 1 && x === COLS - 1) {
+          actionChain?.callMethod(() => {
+            this.board.removeRows(rows);
+            this.board.compactAfterRowsCleared(rows);
+            this.isActive = false;
+            onDone();
+          });
         }
       }
-    }
-
-    // Call a function on the very last block based on its delay
-    if (lastActionChain) {
-      lastActionChain.callMethod(() => {
-        console.log('Last block fade complete');
-        this.board.removeRows(rows);
-        this.board.compactAfterRowsCleared(rows);
-        this.isActive = false;
-        onDone();
-      });
     }
   }
 }
