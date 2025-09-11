@@ -1,5 +1,3 @@
-import type { Engine } from 'excalibur';
-
 import { Panel } from '../panel/panel';
 import { PanelHeading } from '../panel-heading/panel-heading';
 import { PanelText } from '../panel-text/panel-text';
