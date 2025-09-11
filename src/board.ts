@@ -62,15 +62,6 @@ export class Board {
     return rows;
   }
 
-  applyOpacityToRows(rows: number[], opacity: number): void {
-    for (const y of rows) {
-      for (let x = 0; x < COLS; x++) {
-        const block = this.grid[y][x];
-        if (block) block.graphics.opacity = opacity;
-      }
-    }
-  }
-
   getBlock(x: number, y: number): SettledBlock | null {
     if (y < 0 || y >= ROWS || x < 0 || x >= COLS) return null;
     return this.grid[y][x];

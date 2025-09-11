@@ -1,4 +1,4 @@
-import { Scene, Engine } from 'excalibur';
+import { Scene, Engine, Random } from 'excalibur';
 
 import { Background } from './background';
 import { Board } from './board';
@@ -29,15 +29,15 @@ export class GameScene extends Scene {
   // waits for title screen start
   private started: boolean = false;
 
-  // Track last clear count for scoring after effect
-  private lastClearCount: number = 0;
-
   // Next piece preview
   private nextShape: Shape;
 
+  private rand: Random;
+
   public constructor() {
     super();
-    this.nextShape = SHAPES[Math.floor(Math.random() * SHAPES.length)];
+    this.rand = new Random();
+    this.nextShape = this.rand.pickOne(SHAPES);
   }
 
   async onInitialize(engine: Engine): Promise<void> {
@@ -76,7 +76,7 @@ export class GameScene extends Scene {
     const shape = this.nextShape;
 
     // Prepare next piece for next spawn
-    this.nextShape = SHAPES[Math.floor(Math.random() * SHAPES.length)];
+    this.nextShape = this.rand.pickOne(SHAPES);
 
     // Position at top middle of board, approx centered
     const startX = Math.floor((COLS - shape.blocks[0].length) / 2);
@@ -174,29 +174,18 @@ export class GameScene extends Scene {
     this.currentPiece = null;
 
     // Check for completed lines with flash, defer spawn until after clear
-    if (!this.checkAndStartLineClear()) {
+    const rows = this.board.findCompletedRows();
+    if (rows.length === 0) {
       // No lines to clear, spawn immediately
       this.spawnPiece();
+    } else {
+      // Lines to clear, start the effects
+      this.clearEffect.start(rows, () => {
+        this.scoreManager.addLineClears(rows.length);
+        this.updateUI();
+        this.spawnPiece();
+      });
     }
-  }
-
-  // Find complete lines and start clear effect
-  private checkAndStartLineClear(): boolean {
-    const rows = this.board.findCompletedRows();
-    if (rows.length === 0) return false;
-    this.lastClearCount = rows.length;
-    this.clearEffect.start(rows);
-    return true;
-  }
-
-  // Finalise scoring & spawn after effect ends
-  private onEffectFinished(): void {
-    if (this.lastClearCount > 0) {
-      this.scoreManager.addLineClears(this.lastClearCount);
-      this.updateUI();
-      this.lastClearCount = 0;
-    }
-    this.spawnPiece();
   }
 
   private updateUI(): void {
@@ -212,9 +201,7 @@ export class GameScene extends Scene {
     if (!this.started || this.gameOver) return;
 
     // Handle line clear effect (flash + staggered fade)
-    if (this.clearEffect.isActive()) {
-      const finished = this.clearEffect.update(delta);
-      if (finished) this.onEffectFinished();
+    if (this.clearEffect.isActive) {
       return;
     }
 
