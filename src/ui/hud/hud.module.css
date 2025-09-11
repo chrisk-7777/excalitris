@@ -1,6 +1,6 @@
 .root {
   display: grid;
-  grid-template-columns: 200px 1fr 200px;
+  grid-template-columns: 160px 1fr 160px;
   height: var(--header-height);
   left: 0;
   pointer-events: none;
