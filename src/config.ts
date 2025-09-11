@@ -66,3 +66,5 @@ export const SHAPES: Shape[] = [
     ],
   },
 ];
+
+export type Blocks = Shape['blocks'];

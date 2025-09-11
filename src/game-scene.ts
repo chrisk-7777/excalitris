@@ -33,7 +33,12 @@ export class GameScene extends Scene {
   private lastClearCount: number = 0;
 
   // Next piece preview
-  private nextShape: Shape | null = null;
+  private nextShape: Shape;
+
+  public constructor() {
+    super();
+    this.nextShape = SHAPES[Math.floor(Math.random() * SHAPES.length)];
+  }
 
   async onInitialize(engine: Engine): Promise<void> {
     this.board = new Board(this);
@@ -68,12 +73,12 @@ export class GameScene extends Scene {
   }
 
   private spawnPiece(): void {
-    if (!this.nextShape) {
-      this.nextShape = SHAPES[Math.floor(Math.random() * SHAPES.length)];
-    }
     const shape = this.nextShape;
+
+    // Prepare next piece for next spawn
     this.nextShape = SHAPES[Math.floor(Math.random() * SHAPES.length)];
 
+    // Position at top middle of board, approx centered
     const startX = Math.floor((COLS - shape.blocks[0].length) / 2);
     const startY = 0;
 

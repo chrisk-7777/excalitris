@@ -1,7 +1,7 @@
 import { Scene } from 'excalibur';
 
 import { COLS, ROWS, type Shape } from './config';
-import { getBlockSpriteFor } from './sprites';
+import { SpriteManager } from './sprite-manager';
 import { SettledBlock } from './settled-block';
 import { type Tetromino } from './tetromino';
 
@@ -9,12 +9,14 @@ import { type Tetromino } from './tetromino';
 // and so on.
 export class Board {
   private scene: Scene;
+  private spriteManager: SpriteManager;
 
   public grid: Array<Array<SettledBlock | null>>;
 
   constructor(scene: Scene) {
     this.scene = scene;
     this.grid = Array.from({ length: ROWS }, () => Array(COLS).fill(null));
+    this.spriteManager = new SpriteManager();
   }
 
   reset(): void {
@@ -42,7 +44,7 @@ export class Board {
 
   settlePiece(piece: Tetromino): void {
     const positions = piece.getBlockPositions();
-    const sprite = getBlockSpriteFor(piece.shape.name);
+    const sprite = this.spriteManager.getBlockSpriteFor(piece.shape.name);
     positions.forEach((pos) => {
       if (pos.y >= 0 && pos.y < ROWS && pos.x >= 0 && pos.x < COLS) {
         const block = new SettledBlock(pos.x, pos.y, sprite);

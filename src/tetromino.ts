@@ -1,12 +1,12 @@
-import { Actor, GraphicsGroup, Scene, Sprite, SpriteSheet, vec, Vector } from 'excalibur';
+import { Actor, GraphicsGroup, Scene, Sprite, vec, Vector } from 'excalibur';
 
-import { BLOCK_SIZE, Shape, SHAPES } from './config';
-import { Resources } from './resources';
+import { BLOCK_SIZE, type Blocks, type Shape } from './config';
+import { SpriteManager } from './sprite-manager';
 
-export interface BlockPosition {
+export type BlockPosition = {
   x: number;
   y: number;
-}
+};
 
 export class Tetromino extends Actor {
   private blockSprites: Array<Sprite> = [];
@@ -26,20 +26,11 @@ export class Tetromino extends Actor {
     this.gridX = startX;
     this.gridY = startY;
 
-    const spriteSheet = SpriteSheet.fromImageSource({
-      image: Resources.Blocks,
-      grid: {
-        rows: 1,
-        columns: 7,
-        spriteWidth: BLOCK_SIZE,
-        spriteHeight: BLOCK_SIZE,
-      },
-    });
+    const spriteManager = new SpriteManager();
 
     // Create sprites for blocks
     for (let i = 0; i < this.maxBlocksNeeded; i++) {
-      const shapeIndex = SHAPES.findIndex((s) => s.name === shape.name);
-      this.blockSprites.push(spriteSheet.getSprite(Math.max(0, shapeIndex), 0)!);
+      this.blockSprites.push(spriteManager.getBlockSpriteFor(shape.name));
     }
     this.updateBlocks();
   }
@@ -89,10 +80,10 @@ export class Tetromino extends Actor {
   }
 
   // Return a rotated copy of the current blocks (clockwise)
-  public rotate(): Shape['blocks'] {
+  public rotate(): Blocks {
     const h = this.shape.blocks.length;
     const w = this.shape.blocks[0].length;
-    const rotated: Shape['blocks'] = Array.from({ length: w }, () => Array(h).fill(0));
+    const rotated: Blocks = Array.from({ length: w }, () => Array(h).fill(0));
 
     for (let y = 0; y < h; y++) {
       for (let x = 0; x < w; x++) {
@@ -103,7 +94,7 @@ export class Tetromino extends Actor {
     return rotated;
   }
 
-  public updateShape(newShape: Shape['blocks']): void {
+  public updateShape(newShape: Blocks): void {
     this.shape = { name: this.shape.name, blocks: newShape };
     this.updateBlocks();
   }
