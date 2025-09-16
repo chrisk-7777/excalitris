@@ -26,21 +26,23 @@ export class InputController {
 
     this.keyRepeatDelay -= delta;
 
-    if (this.engine.input.keyboard.wasReleased(Keys.Left) && this.keyRepeatDelay <= 0) {
+    const keyboard = this.engine.input.keyboard;
+
+    if ((keyboard.wasReleased(Keys.Left) || keyboard.wasReleased(Keys.H)) && this.keyRepeatDelay <= 0) {
       this.keyRepeatDelay = this.KEY_REPEAT_INTERVAL;
       this.handlers.move(-1, 0);
-    } else if (this.engine.input.keyboard.wasReleased(Keys.Right) && this.keyRepeatDelay <= 0) {
+    } else if ((keyboard.wasReleased(Keys.Right) || keyboard.wasReleased(Keys.L)) && this.keyRepeatDelay <= 0) {
       this.keyRepeatDelay = this.KEY_REPEAT_INTERVAL;
       this.handlers.move(1, 0);
-    } else if (this.engine.input.keyboard.isHeld(Keys.Left) && this.keyRepeatDelay <= 0) {
+    } else if ((keyboard.isHeld(Keys.Left) || keyboard.isHeld(Keys.H)) && this.keyRepeatDelay <= 0) {
       this.keyRepeatDelay = this.KEY_REPEAT_INTERVAL;
       this.handlers.move(-1, 0);
-    } else if (this.engine.input.keyboard.isHeld(Keys.Right) && this.keyRepeatDelay <= 0) {
+    } else if ((keyboard.isHeld(Keys.Right) || keyboard.isHeld(Keys.L)) && this.keyRepeatDelay <= 0) {
       this.keyRepeatDelay = this.KEY_REPEAT_INTERVAL;
       this.handlers.move(1, 0);
-    } else if (this.engine.input.keyboard.wasPressed(Keys.Up)) {
+    } else if (keyboard.wasPressed(Keys.Up) || keyboard.wasPressed(Keys.R)) {
       this.handlers.rotate();
-    } else if (this.engine.input.keyboard.wasPressed(Keys.Down)) {
+    } else if (keyboard.wasPressed(Keys.Down) || keyboard.wasPressed(Keys.J)) {
       this.handlers.hardDrop();
     }
   }
