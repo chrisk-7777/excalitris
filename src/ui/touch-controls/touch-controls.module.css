@@ -9,21 +9,37 @@
   position: absolute;
   right: 0;
   height: var(--footer-height);
+  max-width: 480px;
+  margin: 0 auto;
 }
 
 .button {
   background: rgba(0, 0, 0, 0.6);
-  border-radius: 10px;
+  border-radius: 12px;
   border: none;
   color: white;
   flex: 1;
   font-size: 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
   height: 100%;
   user-select: none;
+}
+
+.button small {
+  font-size: 14px;
+  display: none;
 }
 
 @media (min-width: 480px) {
   .button {
     font-size: 16px;
+  }
+
+  .button small {
+    display: block;
   }
 }

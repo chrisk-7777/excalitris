@@ -4,10 +4,11 @@ import styles from './panel.module.css';
 
 type Props = {
   children: ReactNode;
+  variant?: 'default' | 'top-left' | 'top-right';
 };
 
 export function Panel(props: Props) {
-  const { children } = props;
+  const { children, variant = 'default' } = props;
 
-  return <div className={styles.root}>{children}</div>;
+  return <div className={`${styles.root} ${styles[variant]}`}>{children}</div>;
 }

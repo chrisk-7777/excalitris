@@ -1,17 +1,25 @@
-# Excalibur TypeScript & Vite template
+# Sample Tetris clone built in Excalibur
 
-Check out the full documentation @ https://excaliburjs.com
+Play sample [here](https://chrisk-7777.github.io/excalitris/)
 
-You can use the excalibur cli to generate this template
+<table>
+<tr>
+<td>
+<img src="./docs/screenshot1.png" />
+</td>
+<td>
+<img src="./docs/screenshot2.png" />
+</td>
+</tr>
+</table>
 
-```sh
-npm create excalibur
-```
+## Running locally
 
-## Getting Started
+- Using [nodejs](https://nodejs.org/en/) and [npm](https://www.npmjs.com/)
+- Run `npm install` to install dependencies
+- Run `npm run start` to run the development server to test out changes
 
-1. [Generate a repository](https://github.com/excaliburjs/template-ts-vite/generate) from this template
-2. Modify the `package.json` with your own details
-3. Run `npm install` to install dependencies
-4. Run `npm run dev` to start the Vite server!
-5. Have fun!
+## Building bundles
+
+- Run `npm run start` to produce javascript bundles for debugging in the `dist/` folder
+- Run `npm run build` to produce javascript bundles for production (minified) in the `dist/` folder

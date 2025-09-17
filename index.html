@@ -8,9 +8,13 @@
     <title>Excalitris</title>
   </head>
   <body>
+    <!-- .container has the full viewport for both the ui (which requires the entire area), and the game which requires a smaller subset -->
     <div class="container">
-      <div id="wrapper" class="wrapper">
-        <canvas id="game"></canvas>
+      <div class="safe-area">
+        <!-- wrapper calculated aspect ratio, game will fill _exactly_ these dimensions -->
+        <div id="wrapper" class="wrapper">
+          <canvas id="game"></canvas>
+        </div>
       </div>
       <div id="ui" class="ui"></div>
     </div>

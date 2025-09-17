@@ -26,38 +26,40 @@ export function Hud(props: Props) {
 
   return (
     <div className={styles.root}>
-      <Panel>
-        <div className={styles.row}>
-          <PanelHeading>Score</PanelHeading>
-          <PanelText>{score}</PanelText>
-        </div>
-        <div className={styles.row}>
-          <PanelHeading>Level</PanelHeading>
-          <PanelText>{level}</PanelText>
-        </div>
-        <div className={styles.row}>
-          <PanelHeading>Lines</PanelHeading>
-          <PanelText>{lines}</PanelText>
-        </div>
-      </Panel>
-
-      <div />
-
-      <Panel>
-        <div className={styles.blocks}>
-          <div className={shapeClass}>
-            {blocks && (
-              <div className={styles.nextGrid} style={{ gridTemplateColumns: `repeat(${blocks[0].length}, 12px)` }}>
-                {blocks.flatMap((row, y) =>
-                  row.map((cell, x) => (
-                    <div key={`${x}-${y}`} className={`${styles.cell} ${cell ? styles.filled : ''}`} />
-                  ))
-                )}
-              </div>
-            )}
+      <div className={styles.wrapper}>
+        <Panel variant="top-left">
+          <div className={styles.row}>
+            <PanelHeading>Score</PanelHeading>
+            <PanelText>{score}</PanelText>
           </div>
-        </div>
-      </Panel>
+          <div className={styles.row}>
+            <PanelHeading>Level</PanelHeading>
+            <PanelText>{level}</PanelText>
+          </div>
+          <div className={styles.row}>
+            <PanelHeading>Lines</PanelHeading>
+            <PanelText>{lines}</PanelText>
+          </div>
+        </Panel>
+
+        <div />
+
+        <Panel variant="top-right">
+          <div className={styles.blocks}>
+            <div className={shapeClass}>
+              {blocks && (
+                <div className={styles.nextGrid} style={{ gridTemplateColumns: `repeat(${blocks[0].length}, 12px)` }}>
+                  {blocks.flatMap((row, y) =>
+                    row.map((cell, x) => (
+                      <div key={`${x}-${y}`} className={`${styles.cell} ${cell ? styles.filled : ''}`} />
+                    ))
+                  )}
+                </div>
+              )}
+            </div>
+          </div>
+        </Panel>
+      </div>
     </div>
   );
 }

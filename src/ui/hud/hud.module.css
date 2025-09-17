@@ -1,12 +1,16 @@
 .root {
-  display: grid;
-  grid-template-columns: 160px 1fr 160px;
   height: var(--header-height);
   left: 0;
   pointer-events: none;
   position: absolute;
   right: 0;
   top: 0;
+}
+
+.wrapper {
+  display: grid;
+  grid-template-columns: 160px 1fr 160px;
+  padding-bottom: 12px;
 }
 
 .row {

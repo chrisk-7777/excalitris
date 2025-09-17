@@ -7,3 +7,11 @@
   text-align: center;
   width: 100%;
 }
+
+.top-left {
+  border-bottom-right-radius: 12px;
+}
+
+.top-right {
+  border-bottom-left-radius: 12px;
+}

@@ -10,16 +10,16 @@ export function TouchControls(props: Props) {
   return (
     <div className={styles.root}>
       <button className={styles.button} onClick={() => engine.emit('ui:action', { type: 'left' })}>
-        Left
+        Left <small>◀ / H</small>
       </button>
       <button className={styles.button} onClick={() => engine.emit('ui:action', { type: 'rotate' })}>
-        Rotate
+        Rotate <small>▲ / R</small>
       </button>
       <button className={styles.button} onClick={() => engine.emit('ui:action', { type: 'drop' })}>
-        Drop
+        Drop <small>▼ / J</small>
       </button>
       <button className={styles.button} onClick={() => engine.emit('ui:action', { type: 'right' })}>
-        Right
+        Right <small>▶ / L</small>
       </button>
     </div>
   );
